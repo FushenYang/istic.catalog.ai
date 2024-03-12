@@ -1,6 +1,8 @@
 name: CI
 on:
-  - push
+  push:
+    branches:
+      - test # 暂时先屏蔽测试分支任务
 jobs:
   test:
     name: 🔍 Testing

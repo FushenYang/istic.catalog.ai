@@ -4,7 +4,7 @@ import { Markdown } from '~/components';
 
 export async function loader({ context }: LoaderFunctionArgs) {
 	return json({
-		content: 'parse(content)',
+		content: 'hello',
 	});
 }
 

@@ -15,6 +15,7 @@ export default function Index() {
 
 	return (
 		<div>
+			<p>Test pull request on origin repo</p>
 			<button onClick={() => setCount(count + 1)}>
 				Clicked {count} time{count !== 1 ? 's' : ''}
 			</button>

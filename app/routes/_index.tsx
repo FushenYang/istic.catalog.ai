@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { json, useLoaderData } from '@remix-run/react';
 import { useState } from 'react';
-import { Markdown } from '~/components';
+// import { Markdown } from '~/components';
 
 export async function loader({ context }: LoaderFunctionArgs) {
 	return json({
@@ -15,10 +15,8 @@ export default function Index() {
 
 	return (
 		<div>
-			<p>Test pull request on origin repo</p>
-			<button onClick={() => setCount(count + 1)}>
-				Clicked {count} time{count !== 1 ? 's' : ''}
-			</button>
+			<p>主信息页面</p>
+			<button onClick={() => setCount(count + 1)}>点击 {count} 次</button>
 			<div>{content}</div>
 		</div>
 	);

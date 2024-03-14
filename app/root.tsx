@@ -13,7 +13,7 @@ import {
 	useRouteError,
 } from '@remix-run/react';
 import '~/styles.css';
-import { RemixLogo } from './components';
+// import { RemixLogo } from './components';
 
 // We will rollback to loading CSS through links when `.css?url` is supported
 // export const links: LinksFunction = () => {
@@ -24,7 +24,7 @@ export const meta: MetaFunction = () => {
 	return [
 		{ charset: 'utf-8' },
 		{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-		{ title: 'remix-cloudlfare-template' },
+		{ title: 'AI资源信息库' },
 	];
 };
 
@@ -32,7 +32,7 @@ export function loader({ context }: LoaderFunctionArgs) {
 	return json({
 		repo: context.env.GITHUB_REPO,
 		owner: context.env.GITHUB_OWNER,
-		description: '📜 All-in-one remix starter template for Cloudflare Pages',
+		description: 'AI行业与科研信息',
 	});
 }
 
@@ -100,8 +100,8 @@ function Layout({
 							className={`flex flex-col px-5 py-5 lg:px-10 lg:py-10 ${children ? 'lg:min-h-screen' : 'min-h-screen'}`.trim()}
 						>
 							<header className="py-4">
-								<Link to="/" title="Remix">
-									<RemixLogo />
+								<Link to="/" title="首页">
+									首页
 								</Link>
 							</header>
 							<div className="flex-1 py-10 lg:py-20">
@@ -117,9 +117,9 @@ function Layout({
 								) : null}
 							</div>
 							<footer className="pt-8">
-								Wanna know more about Remix? Check out{' '}
+								本网站基于remix框架设计,更多资料请参考{' '}
 								<a className="underline" href="https://remix.guide">
-									Remix Guide
+									Remix手册
 								</a>
 							</footer>
 						</div>

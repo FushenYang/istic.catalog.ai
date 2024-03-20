@@ -32,7 +32,7 @@ export function loader({ context }: LoaderFunctionArgs) {
 	return json({
 		repo: context.env.GITHUB_REPO,
 		owner: context.env.GITHUB_OWNER,
-		description: 'AI行业与科研信息',
+		description: '本网站汇总整理AI资源信息,如有侵权请联系项目管理员。',
 	});
 }
 
@@ -41,9 +41,9 @@ export default function App() {
 	return (
 		<Document>
 			<Layout
-				title={repo}
+				title={'网站说明:'}
 				description={description}
-				actionText="GitHub Repository"
+				actionText="项目地址"
 				actionLink={`https://github.com/${owner}/${repo}`}
 			>
 				<Outlet />
@@ -93,7 +93,7 @@ function Layout({
 		<div className="container mx-auto">
 			<div className="flex flex-col-reverse lg:flex-row">
 				<section
-					className={`relative flex-1 ${children ? 'border-t lg:border-t-0' : ''}`.trim()}
+					className={`relative flex-1 lg:w-1/5 lg:flex-none ${children ? 'border-t lg:border-t-0' : ''}`.trim()}
 				>
 					<div className="sticky top-0">
 						<div
@@ -104,7 +104,7 @@ function Layout({
 									首页
 								</Link>
 							</header>
-							<div className="flex-1 py-10 lg:py-20">
+							<div className="flex-1 py-5 lg:py-10">
 								<h2 className="text-xl">{title}</h2>
 								<p className="py-2">{description}</p>
 								{actionText ? (
@@ -126,7 +126,7 @@ function Layout({
 					</div>
 				</section>
 				{children ? (
-					<main className="flex-1">
+					<main className="flex-1 lg:w-4/5">
 						<div className="px-5 py-5 lg:py-10">{children}</div>
 					</main>
 				) : null}

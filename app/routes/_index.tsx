@@ -17,10 +17,13 @@ export default function Index() {
 		<div>
 			<p className={`font-bold`}>资源信息（{content})</p>
 			{/* <button onClick={() => setCount(count + 1)}>点击 {count} 次</button> */}
-			<div className={`flex flex-col`}>
+			<div className={`flex flex-col md:flex-wrap`}>
 				{[1, 2, 3, 4, 5, 6].map(num => (
-					<div className={`m-1 flex-1 border text-left`} key={num}>
-						<table className={`table-auto`}>
+					<div
+						className={`m-1 border text-left md:m-2 md:basis-[calc(25%-1rem)] md:bg-cyan-100 md:pl-2`}
+						key={num}
+					>
+						<table className={`flex-1 table-auto`}>
 							<head>
 								<tr>
 									<th>{num}项目</th>
@@ -38,14 +41,7 @@ export default function Index() {
 										Programs of study are varied and cover fields such as
 										Computer Science/Engineering, Security of Emerging
 										Technologies (e.g., internet of things, medical implants),
-										Cyber Law and Privacy, and Policy. Students pursue studies
-										in well-established cybersecurity programs, engage with
-										hands-on experiences, participate in cyber competitions and
-										pursue opportunities for professional development (e.g.,
-										earn industry certifications, present at conferences). They
-										are required to complete a summer internship to hone their
-										skills and gain professional experience. Often they stay at
-										their place of internship for post-graduation placement.
+										Cyber Law and Privacy, and Policy. ...
 									</th>
 								</tr>
 							</tbody>

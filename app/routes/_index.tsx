@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { json, useFetcher, useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
@@ -22,7 +23,7 @@ export default function Index() {
 		<div>
 			<p className={`font-bold`}>资源信息（{content})</p>
 			{/* <button onClick={() => setCount(count + 1)}>点击 {count} 次</button> */}
-			<div className={`flex flex-col md:flex-wrap`}>
+			<div className={`flex flex-col lg:flex-row lg:flex-wrap`}>
 				{fetcher.data !== undefined ? (
 					<div>
 						{fetcher.data.map(
@@ -44,24 +45,29 @@ export default function Index() {
 								index,
 							) => {
 								return (
-									<table key={index} className={`flex-1 table-auto`}>
-										<head>
-											<tr>
-												<th>{index + 1}项目</th>
-												<th>信息</th>
-											</tr>
-										</head>
-										<tbody>
-											<tr>
-												<th className={`whitespace-nowrap`}>项目名称</th>
-												<th>{program_name}</th>
-											</tr>
-											<tr>
-												<th>目标</th>
-												<th>{objective}</th>
-											</tr>
-										</tbody>
-									</table>
+									<div
+										key={index}
+										className={`m-1 border text-left lg:m-2 lg:basis-[calc(25%-1rem)] lg:bg-cyan-100 lg:pl-2`}
+									>
+										<table key={index}>
+											<thead>
+												<tr>
+													<th>{index + 1}项目</th>
+													<th>信息</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th className={`whitespace-nowrap`}>项目名称</th>
+													<th>{program_name}</th>
+												</tr>
+												<tr>
+													<th>目标</th>
+													<th>{objective}</th>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								);
 							},
 						)}

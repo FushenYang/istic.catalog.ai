@@ -1,26 +1,4 @@
-import { type LoaderFunctionArgs, json } from '@remix-run/cloudflare';
-
-export const loader = async ({ context }: LoaderFunctionArgs) => {
-	const records = csv_json(csvdata);
-	return json(records);
-};
-
-const csv_json = (csv: string): Array<Object> => {
-	const lines = csv.trim().split('\n');
-	const headers = lines[0].split(',');
-	const content = lines.slice(1);
-	const jsonResult = content.map(line => {
-		let currentLine = line.split(',');
-		let jsonObj: { [key: string]: string } = {};
-		headers.forEach((header: string, i) => {
-			jsonObj[header] = currentLine[i];
-		});
-		return jsonObj;
-	});
-	return jsonResult; //JSON.stringify(jsonResult)
-};
-
-const csvdata: string = `
+const csv = `
 program_name,url,objective,program_type,organization_type,target_audience,cost,location,participant_level,prerequisites,is_community_program,duration
 CyberCorps? Scholarship for Service Program (SFS),https://www.sfs.opm.gov/StudDefault.aspx,"Programs of study are varied and cover fields such as Computer Science/Engineering, Security of Emerging Technologies (e.g., internet of things, medical implants), Cyber Law and Privacy, and Policy. Students pursue studies in well-established cybersecurity programs, engage with hands-on experiences, participate in cyber competitions and pursue opportunities for professional development (e.g., earn industry certifications, present at conferences). They are required to complete a summer internship to hone their skills and gain professional experience. Often they stay at their place of internship for post-graduation placement.",Scholarship,Government,Postsecondary students,Free,National,Pursuing an undergreaduate or masters degree,"U.S. Citizen or permanent resident,Full time undergraduate",FALSE,"Annual Stipends Of $25,000 Per Year For Undergraduate Students And $34,000 Per Year For Graduate Students And A $6,000 Professional Stipend"
 SUMMER UNDERGRADUATE RESEARCH FELLOWSHIP (SURF),https://www.nist.gov/surf,"Designed to inspire undergraduate students to pursue careers in STEM (science, technology, engineering, and mathematics) through a unique research experience that supports the NIST mission.",Fellowship,Government,Postsecondary students,Free,National,Undergrad,,FALSE,11 Weeks
@@ -89,3 +67,24 @@ NASA Pathways Intern Employment Program (IEP), NASA Pathways Recent Graduates Pr
 AMS Graduate Fellowships,https://www.ametsoc.org/index.cfm/ams/information-for/students/ams-scholarships-and-fellowships/ams-graduate-fellowships/,"The AMS Fellowship Program is a source of unique opportunities for outstanding students looking to pursue graduate education in the atmospheric or related sciences. To date, 368 students have been designated as AMS fellowship recipients. The program helps these first-year graduate students to be educated about unique challenges facing the world so that they may better tackle real-world issues after graduation. Fellowships come with several benefits that include financial support, the opportunity to be special guests at the AMS Annual Meeting with exclusive events therein, and ongoing academic and career support from AMS.",Fellowship,Government,Postsecondary students,Free,National,First Year Graduate Students,"Entering first year of graduate school,Pursuing a degree in the atmospheric or related sciences at a US accredited institution,3.0 GPA minimum,U.S. Citizen or permanent resident",FALSE,Length Of Degree
 Margaret A. Davidson Graduate Fellowship,https://coast.noaa.gov/nerrs/research/davidson-fellowship.html,"It’s an exciting new two-year fellowship program that will place one graduate student at each of the 29 national estuarine research reserves. Through a research project, fellows will address a key coastal management question to help scientists and communities understand coastal challenges that may influence future policy and management strategies.",Fellowship,Government,Postsecondary students,Free,National,Graduate students,"U.S. Citizen or permanent resident,current graduate student with at least two year left in degree",FALSE,Summer
 `;
+
+// const lines = csv.split('\n');
+
+const csv_json = csv => {
+	const lines = csv.trim().split('\n');
+	const headers = lines[0].split(',');
+	const content = lines.slice(1);
+	const jsonResult = content.map(line => {
+		let currentLine = line.split(',');
+		let jsonObj = {};
+		headers.forEach((header, i) => {
+			jsonObj[header] = currentLine[i];
+		});
+		return jsonObj;
+	});
+	return jsonResult; //JSON.stringify(jsonResult)
+};
+
+const out = csv_json(csv);
+
+console.log(out);

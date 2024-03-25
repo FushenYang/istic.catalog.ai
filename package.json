@@ -20,6 +20,7 @@
     "@remix-run/react": "^2.8.1",
     "csv-parse": "^5.5.5",
     "isbot": "^3.6.5",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -30,6 +31,7 @@
     "@remix-run/dev": "^2.8.1",
     "@remix-run/eslint-config": "^2.8.1",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/papaparse": "^5.3.14",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "autoprefixer": "^10.4.18",

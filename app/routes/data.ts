@@ -1,4 +1,5 @@
 import { type LoaderFunctionArgs, json } from '@remix-run/cloudflare';
+import Papa from 'papaparse';
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
 	const records = csv_json(csvdata);
@@ -6,11 +7,11 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 };
 
 const csv_json = (csv: string): Array<Object> => {
-	const lines = csv.trim().split('\n');
-	const headers = lines[0].split(',');
-	const content = lines.slice(1);
+	const lines = Papa.parse<string[]>(csv.trim());
+	const headers = lines.data[0];
+	const content = lines.data.slice(1);
 	const jsonResult = content.map(line => {
-		let currentLine = line.split(',');
+		let currentLine = line;
 		let jsonObj: { [key: string]: string } = {};
 		headers.forEach((header: string, i) => {
 			jsonObj[header] = currentLine[i];

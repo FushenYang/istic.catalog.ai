@@ -1,3 +1,5 @@
+import Papa from 'papaparse';
+
 const csv = `
 program_name,url,objective,program_type,organization_type,target_audience,cost,location,participant_level,prerequisites,is_community_program,duration
 CyberCorps? Scholarship for Service Program (SFS),https://www.sfs.opm.gov/StudDefault.aspx,"Programs of study are varied and cover fields such as Computer Science/Engineering, Security of Emerging Technologies (e.g., internet of things, medical implants), Cyber Law and Privacy, and Policy. Students pursue studies in well-established cybersecurity programs, engage with hands-on experiences, participate in cyber competitions and pursue opportunities for professional development (e.g., earn industry certifications, present at conferences). They are required to complete a summer internship to hone their skills and gain professional experience. Often they stay at their place of internship for post-graduation placement.",Scholarship,Government,Postsecondary students,Free,National,Pursuing an undergreaduate or masters degree,"U.S. Citizen or permanent resident,Full time undergraduate",FALSE,"Annual Stipends Of $25,000 Per Year For Undergraduate Students And $34,000 Per Year For Graduate Students And A $6,000 Professional Stipend"
@@ -85,6 +87,8 @@ const csv_json = csv => {
 	return jsonResult; //JSON.stringify(jsonResult)
 };
 
-const out = csv_json(csv);
+// const out = csv_json(csv);
 
-console.log(out);
+const out = Papa.parse(csv.trim());
+
+console.log(out.data[0]);

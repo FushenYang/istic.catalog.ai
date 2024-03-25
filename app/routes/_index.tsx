@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
-import { json, useLoaderData } from '@remix-run/react';
+import { json, useFetcher, useLoaderData } from '@remix-run/react';
+import { useEffect } from 'react';
 // import { useState } from 'react';
 // import { Markdown } from '~/components';
 
@@ -11,43 +13,39 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
 export default function Index() {
 	const { content } = useLoaderData<typeof loader>();
-	// const [count, setCount] = useState(0);
+	const fetcher = useFetcher<{ [key: string]: string }[]>({ key: 'category' });
+	useEffect(() => {
+		fetcher.load('/data');
+	}, []);
+	const data = fetcher.data;
 
 	return (
 		<div>
 			<p className={`font-bold`}>资源信息（{content})</p>
 			{/* <button onClick={() => setCount(count + 1)}>点击 {count} 次</button> */}
-			<div className={`flex flex-col lg:flex-row lg:flex-wrap`}>
-				{[1, 2, 3, 4, 5, 6].map(num => (
-					<div
-						className={`m-1 border text-left lg:m-2 lg:basis-[calc(25%-1rem)] lg:bg-cyan-100 lg:pl-2`}
-						key={num}
-					>
-						<table className={`flex-1 table-auto`}>
-							<head>
-								<tr>
-									<th>{num}项目</th>
-									<th>信息</th>
-								</tr>
-							</head>
-							<tbody>
-								<tr>
-									<th className={`whitespace-nowrap`}>项目名称</th>
-									<th>CyberCorps Scholarship for Service Program (SFS)</th>
-								</tr>
-								<tr>
-									<th>目标</th>
-									<th>
-										Programs of study are varied and cover fields such as
-										Computer Science/Engineering, Security of Emerging
-										Technologies (e.g., internet of things, medical implants),
-										Cyber Law and Privacy, and Policy. ...
-									</th>
-								</tr>
-							</tbody>
-						</table>
+			<div>
+				{fetcher.data !== undefined ? (
+					<div className={`flex flex-col lg:flex-row lg:flex-wrap`}>
+						{data?.map((item, index) => {
+							return (
+								<div
+									key={index}
+									className={`m-1 border text-left lg:m-2 lg:basis-[calc(25%-1rem)] lg:bg-cyan-100 lg:pl-2`}
+								>
+									<span>项目名称：{item['program_name']}</span>
+									<span>项目类型：{item['program_type']}</span>
+									<span>
+										<a className="underline" href={item['url']}>
+											网址
+										</a>
+									</span>
+								</div>
+							);
+						})}
 					</div>
-				))}
+				) : (
+					<p>Loading...</p>
+				)}
 			</div>
 		</div>
 	);

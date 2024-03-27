@@ -7,3 +7,9 @@ kv_namespaces = [
 [vars]
 GITHUB_OWNER = "FushenYang"
 GITHUB_REPO = "istic.catalog.ai"
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "prod-ai-db"
+database_id = "095f5702-cfe6-4967-b9dc-37c6e0559322"
+preview_database_id = "DB"

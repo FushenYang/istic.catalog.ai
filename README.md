@@ -29,8 +29,8 @@ pnpm run dev #本地启动vite测试，该方式无法测试到数据库功能�
 pnpm run migrate
 ```
 
-运行命令成功后会生成本地数据库文件`./.wrangler/state/v3/d1/DB/db.sqlite`，该文件
-就是开发中的本地数据库。
+以上命令会使用`./migrations`文件夹下的数据脚本生成本地数据库文件，该文件位
+于`./.wrangler/state/v3/d1/`文件夹下，可以直接访问修改本地数据库。
 
 测试网站功能需要先生成网站，然后使用wrangler工具模拟cloudflare的环境，命令如下：
 

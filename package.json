@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "remix vite:dev",
     "test": "playwright test --ui",
-    "start": "wrangler pages dev ./build/client --d1=DB --local",
+    "migrate":"wrangler d1 migrations apply DB --local",
+    "start": "wrangler pages dev ./build/client --d1=DB",
     "build": "remix vite:build",
     "cleanup": "rimraf .cache ./build",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",

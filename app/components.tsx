@@ -1,5 +1,8 @@
 import * as React from 'react';
 import markdoc, { type RenderableTreeNodes } from '@markdoc/markdoc';
+import type { ProgramMetadata } from '~/types';
+import Icon from '@mdi/react';
+import { mdiMapMarker, mdiAccountSupervisor, mdiWallet } from '@mdi/js';
 
 export function RemixLogo(props: React.ComponentPropsWithoutRef<'svg'>) {
 	return (
@@ -27,4 +30,37 @@ export function RemixLogo(props: React.ComponentPropsWithoutRef<'svg'>) {
 
 export function Markdown({ content }: { content: RenderableTreeNodes }) {
 	return <div className="prose">{markdoc.renderers.react(content, React)}</div>;
+}
+
+export function ProgramCard({ program }: { program: ProgramMetadata }) {
+	return (
+		<div className="group mx-auto overflow-hidden rounded-xl bg-white shadow-md hover:bg-slate-100">
+			<div className="group/main p-8">
+				<div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">
+					{program.program_type}
+				</div>
+				<a
+					href={program.url}
+					className="mt-1 block text-lg font-medium leading-tight hover:underline"
+				>
+					{program.program_name}
+				</a>
+				<p className="mt-2 text-slate-500">{program.objective}</p>
+				<div className="flex justify-start space-x-2 align-baseline text-sm text-gray-500">
+					<div className="flex items-center">
+						<Icon path={mdiMapMarker} size={0.7} />
+						<p>{program.location}</p>
+					</div>
+					<div className="flex items-center">
+						<Icon path={mdiAccountSupervisor} size={0.7} />
+						<p>{program.target_audience}</p>
+					</div>
+					<div className="flex items-center">
+						<Icon path={mdiWallet} size={0.7} />
+						<p>{program.cost}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }

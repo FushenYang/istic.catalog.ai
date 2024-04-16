@@ -1,9 +1,11 @@
 import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { json, useLoaderData } from '@remix-run/react';
+import { getDb } from '~/services/db';
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-	const db = context.env.DB;
-	const { results } = await db.prepare('SELECT * FROM employees').all();
+	const db = getDb(context.env);
+	// const { results } = await db.prepare('SELECT * FROM employees').all();
+	const results = await db.visit.findMany();
 	return json({ content: results });
 };
 

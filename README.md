@@ -37,3 +37,43 @@ pnpm run migrate
 ```bash
 pnpm run build && pnpm run start
 ```
+
+## 创建数据库使用的命令
+
+以下命令是创建数据库时使用
+
+```bash
+npx wrangler d1 migrations create DB init
+npx prisma init --datasource-provider sqlite
+npx prisma migrate diff --script --from-empty --to-schema-datamodel ./prisma/schema.prisma >> migrations/0001_init.sql
+npx wrangler d1 migrations apply DB --local
+npx wrangler d1 migrations apply DB --remote
+npx prisma generate
+```
+
+如果修改模型之后,同步修改到本地和远程数据库;
+
+```bash
+# 修改schema文件
+# 创建一个迁移
+wrangler d1 migrations create DB add_ip
+# 重要命令：把数据库修改添加到迁移文件，根据数据库变化生成迁移文件
+npx prisma migrate diff --script --from-local-d1 --to-schema-datamodel ./prisma/schema.prisma >> migrations/0002_add_ip.sql
+wrangler d1 migrations list # 预览哪些迁移会被执行，有些迁移如果不必要可以删除
+wrangler d1 migrations apply DB #执行migrations目录下的所有迁移
+```
+
+以上是标准流程，一般情况下不会那么顺利^\_^，提供一些工具可以检查
+
+```bash
+# 远程数据库执行命令
+npx wrangler d1 execute DB --command="SELECT name FROM sqlite_master WHERE type='table'"
+# 本地数据库执行命令
+npx wrangler d1 execute DB --local --command="SELECT name FROM sqlite_master WHERE type='table'"
+# 本地数据库执行数据脚本
+npx wrangler d1 execute DB --local --file=./migrations/0001_init.sql
+# 查看表格结构
+npx wrangler d1 execute DB --local --command="SELECT * FROM Visit"
+# 直接执行迁移脚本
+npx wrangler d1 execute DB --local --file=./migrations/0002_add_ip.sql
+```

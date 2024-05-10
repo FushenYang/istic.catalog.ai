@@ -37,3 +37,7 @@ pnpm run migrate
 ```bash
 pnpm run build && pnpm run start
 ```
+
+## 使用wrangler工具管理数据库注意事项
+
+- D1数据库暂不支持事务，对于倒入的批量脚本，需要去掉BEGIN、COMMIT等关键词。

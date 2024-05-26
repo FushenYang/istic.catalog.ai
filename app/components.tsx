@@ -3,6 +3,7 @@ import markdoc, { type RenderableTreeNodes } from '@markdoc/markdoc';
 import type { ProgramMetadata } from '~/types';
 import Icon from '@mdi/react';
 import { mdiMapMarker, mdiAccountSupervisor, mdiWallet } from '@mdi/js';
+import { useState } from 'react';
 
 export function RemixLogo(props: React.ComponentPropsWithoutRef<'svg'>) {
 	return (
@@ -33,32 +34,140 @@ export function Markdown({ content }: { content: RenderableTreeNodes }) {
 }
 
 export function ProgramCard({ program }: { program: ProgramMetadata }) {
+	const [expanded, setExpanded] = useState(false);
+
+	const expandBtnHandle = () => {
+		setExpanded(!expanded);
+	};
+	return expanded
+		? ExpandedProgramCard({ program, expandBtnHandle })
+		: NonExpandedProgramCard({ program, expandBtnHandle });
+}
+
+function NonExpandedProgramCard({
+	program,
+	expandBtnHandle,
+}: {
+	program: ProgramMetadata;
+	expandBtnHandle: () => void;
+}) {
 	return (
 		<div className="group mx-auto overflow-hidden rounded-xl bg-white shadow-md hover:bg-slate-100">
 			<div className="group/main p-8">
 				<div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">
-					{program.program_type}
+					{program.prog_type}
 				</div>
 				<a
-					href={program.url}
+					href={program.course_url}
 					className="mt-1 block text-lg font-medium leading-tight hover:underline"
 				>
-					{program.program_name}
+					{program.prog_name}
 				</a>
-				<p className="mt-2 text-slate-500">{program.objective}</p>
-				<div className="flex justify-start space-x-2 align-baseline text-sm text-gray-500">
-					<div className="flex items-center">
+
+				<p className="mt-2 line-clamp-3 text-slate-500">{program.prog_goal}</p>
+				<div className="flex flex-wrap space-x-2 text-sm text-gray-500">
+					<div className="flex items-center space-x-1">
 						<Icon path={mdiMapMarker} size={0.7} />
-						<p>{program.location}</p>
+						<p>{program.country}</p>
+						<span className="w-0" />
+						<p>{program.inst_name_cn}</p>
 					</div>
-					<div className="flex items-center">
+					<div className="flex items-center space-x-1">
 						<Icon path={mdiAccountSupervisor} size={0.7} />
-						<p>{program.target_audience}</p>
+						<a href={program.faculty}>点击查看</a>
 					</div>
-					<div className="flex items-center">
+					<div className="flex items-center space-x-1">
 						<Icon path={mdiWallet} size={0.7} />
-						<p>{program.cost}</p>
+						<p>{program.duration}</p>
 					</div>
+
+					<span className="grow" />
+					<button
+						className="m-2 inline-block border px-4 py-2 hover:border-black"
+						onClick={expandBtnHandle}
+					>
+						展开
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function ExpandedProgramCard({
+	program,
+	expandBtnHandle,
+}: {
+	program: ProgramMetadata;
+	expandBtnHandle: () => void;
+}) {
+	const propsToShow = {
+		inst_name_cn: '机构名称',
+		inst_name_en: '机构英文名称',
+		intro_cn: '机构简介',
+		inst_type: '机构类型',
+		country: '机构所在国家',
+		rank: '项目学科排名',
+		prog_name: '项目名称',
+		is_indep: '是否独立项目',
+		prog_type: '项目类型',
+		prog_url: '项目介绍的URL',
+		school: '所在学院',
+		host_inst: '依托院系',
+		awards_or_abet: '项目荣誉或是否有工程认证',
+		apply_url: '申请链接',
+		degree: '所授学位',
+		duration: '学制',
+		joint: '是否为贯通项目',
+		min_credit: '学分要求',
+		thesis: '论文要求',
+		prog_goal: '教育目标',
+		prog_outcome: '预期学习成果',
+		has_culm_act: '是否有最终项目',
+		internship: '是否提供实习',
+		has_minor: '是否提供选修或双学位',
+		course_url: '课程链接',
+		faculty: '教职人员',
+		stu_hb_url: '学生手册链接',
+	};
+
+	return (
+		<div className="group mx-auto overflow-hidden rounded-xl bg-white shadow-md hover:bg-slate-100">
+			<div className="group/main p-8">
+				<div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">
+					{program.prog_type}
+				</div>
+				<a
+					href={program.course_url}
+					className="mt-1 block text-lg font-medium leading-tight hover:underline"
+				>
+					{program.prog_name}
+				</a>
+
+				<p className="mt-2 text-slate-500">{program.prog_goal}</p>
+
+				<table className="w-full table-auto border-collapse border border-slate-400 bg-white text-sm shadow-sm">
+					<tbody>
+						{Object.entries(propsToShow).map(entry => (
+							<tr key={entry[0]} className="hover:bg-slate-100">
+								<td className="border border-slate-300 p-2 text-slate-500">
+									{entry[1]}
+								</td>
+								<td className="border border-slate-300 p-2 text-slate-500">
+									{(program as any)[entry[0]]}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+				<div className="flex flex-wrap space-x-2 text-sm text-gray-500">
+					<span className="grow" />
+					<button
+						className="m-2 inline-block border px-4 py-2 hover:border-black"
+						onClick={expandBtnHandle}
+					>
+						收缩
+					</button>
 				</div>
 			</div>
 		</div>

@@ -102,7 +102,7 @@ export function ProgramCard({ program }: { program: ProgramMetadata }) {
 	return (
 		<div
 			className={
-				'group h-full w-full rounded-2xl bg-slate-200 hover:bg-slate-300' +
+				'group h-full w-full rounded-2xl bg-slate-200 transition hover:bg-slate-300' +
 				(expanded ? ' col-span-full' : '')
 			}
 		>
@@ -130,7 +130,7 @@ export function ProgramCard({ program }: { program: ProgramMetadata }) {
 				<div className="flex">
 					<span className="grow" />
 					<button
-						className="m-2 inline-block rounded-full border bg-slate-100 px-4 py-2 hover:bg-slate-200 sm:-mb-2 sm:-me-2"
+						className="m-2 inline-block rounded-full border bg-slate-100 px-4 py-2 transition hover:bg-slate-200 active:bg-slate-300 sm:-mb-2 sm:-me-2"
 						onClick={expandBtnHandle}
 					>
 						{expanded ? '收缩' : '展开'}
@@ -143,7 +143,7 @@ export function ProgramCard({ program }: { program: ProgramMetadata }) {
 
 function NonExpandedProgramCardContent(program: ProgramMetadata) {
 	return (
-		<div className="flex flex-wrap space-x-2 text-sm text-gray-500">
+		<div className="flex flex-wrap space-x-2 text-sm text-gray-500 transition-all duration-300">
 			<div className="flex items-center space-x-1">
 				<Icon path={mdiMapMarker} size={0.7} />
 				<p>{program.country}</p>
@@ -194,7 +194,7 @@ function ExpandedProgramCardContent(program: ProgramMetadata) {
 	};
 
 	return (
-		<div className="my-2 overflow-auto rounded-2xl border border-white bg-slate-50 text-slate-600">
+		<div className="my-2 overflow-auto rounded-2xl border border-white bg-slate-50 text-slate-600 transition-all duration-300">
 			<table className="w-full table-fixed">
 				<tbody>
 					{Object.entries(propsToShow).map(entry => (

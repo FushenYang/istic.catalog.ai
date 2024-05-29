@@ -2,7 +2,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import { json, useFetcher, useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
-import { ProgramCard } from '~/components';
+import { HeadCard, ProgramCard } from '~/components';
 import { ProgramMetadata } from '~/types';
 // import { useState } from 'react';
 // import { Markdown } from '~/components';
@@ -22,7 +22,11 @@ export default function Index() {
 	const data = fetcher.data;
 
 	return (
-		<div>
+		<div className="m-4 space-y-8">
+			<HeadCard
+				title="AI资源信息库"
+				description="本网站汇总整理AI资源信息，如有侵权请联系项目管理员。"
+			/>
 			<p className={`font-bold`}>资源信息（{content})</p>
 			{/* <button onClick={() => setCount(count + 1)}>点击 {count} 次</button> */}
 			<div>

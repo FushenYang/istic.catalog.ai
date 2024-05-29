@@ -2,8 +2,15 @@ import * as React from 'react';
 import markdoc, { type RenderableTreeNodes } from '@markdoc/markdoc';
 import type { ProgramMetadata } from '~/types';
 import Icon from '@mdi/react';
-import { mdiMapMarker, mdiAccountSupervisor, mdiWallet } from '@mdi/js';
+import {
+	mdiMapMarker,
+	mdiAccountSupervisor,
+	mdiWallet,
+	mdiGithub,
+} from '@mdi/js';
 import { useState } from 'react';
+import { Link, useLoaderData } from '@remix-run/react';
+import { loader } from '~/root';
 
 export function RemixLogo(props: React.ComponentPropsWithoutRef<'svg'>) {
 	return (
@@ -33,6 +40,59 @@ export function Markdown({ content }: { content: RenderableTreeNodes }) {
 	return <div className="prose">{markdoc.renderers.react(content, React)}</div>;
 }
 
+export function HeaderContent({
+	repo,
+	owner,
+}: {
+	repo: string;
+	owner: string;
+}) {
+	return (
+		<div className="flex justify-center bg-slate-800">
+			<div className="container flex items-center justify-between p-4 text-white">
+				<RemixLogo />
+				<nav>
+					<ul className="flex space-x-4">
+						<li>
+							<Link to="/" title="首页" className="hover:text-slate-200">
+								首页
+							</Link>
+						</li>
+						<li>
+							<Link
+								to={`https://github.com/${owner}/${repo}`}
+								title="项目地址"
+								className="hover:text-slate-200"
+							>
+								{/*<Icon path={mdiGithub} size={1} />*/}
+								项目地址
+							</Link>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	);
+}
+
+export function HeadCard({
+	title,
+	description,
+	children,
+}: {
+	title: string;
+	description?: string;
+	children?: React.ReactNode;
+}) {
+	return (
+		<div className="flex flex-col justify-center rounded-2xl bg-slate-200 p-8 sm:p-14 lg:min-h-[544px]">
+			<h1 className="-my-2 text-[44px] font-bold sm:text-[88px]">{title}</h1>
+			{description ? <p className="sm:text-[22px]">{description}</p> : null}
+			{children}
+		</div>
+	);
+}
+
 export function ProgramCard({ program }: { program: ProgramMetadata }) {
 	const [expanded, setExpanded] = useState(false);
 
@@ -42,12 +102,12 @@ export function ProgramCard({ program }: { program: ProgramMetadata }) {
 	return (
 		<div
 			className={
-				'group h-full w-full rounded-xl bg-white shadow-md hover:bg-slate-100' +
-				(expanded ? ' col-span-2' : '')
+				'group h-full w-full rounded-2xl bg-slate-200 hover:bg-slate-300' +
+				(expanded ? ' col-span-full' : '')
 			}
 		>
 			<div className="group/main flex h-full flex-col p-4 md:p-8">
-				<div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">
+				<div className="text-sm font-semibold uppercase tracking-wide text-slate-600">
 					{program.prog_type}
 				</div>
 				<a
@@ -63,14 +123,14 @@ export function ProgramCard({ program }: { program: ProgramMetadata }) {
 					{program.prog_goal}
 				</p>
 
-				{expanded
-					? ExpandedProgramCard(program)
-					: NonExpandedProgramCard(program)}
 				<span className="grow" />
+				{expanded
+					? ExpandedProgramCardContent(program)
+					: NonExpandedProgramCardContent(program)}
 				<div className="flex">
 					<span className="grow" />
 					<button
-						className="m-2 inline-block border px-4 py-2 hover:border-black sm:-mb-2"
+						className="m-2 inline-block rounded-full border bg-slate-100 px-4 py-2 hover:bg-slate-200 sm:-mb-2 sm:-me-2"
 						onClick={expandBtnHandle}
 					>
 						{expanded ? '收缩' : '展开'}
@@ -81,7 +141,7 @@ export function ProgramCard({ program }: { program: ProgramMetadata }) {
 	);
 }
 
-function NonExpandedProgramCard(program: ProgramMetadata) {
+function NonExpandedProgramCardContent(program: ProgramMetadata) {
 	return (
 		<div className="flex flex-wrap space-x-2 text-sm text-gray-500">
 			<div className="flex items-center space-x-1">
@@ -102,7 +162,7 @@ function NonExpandedProgramCard(program: ProgramMetadata) {
 	);
 }
 
-function ExpandedProgramCard(program: ProgramMetadata) {
+function ExpandedProgramCardContent(program: ProgramMetadata) {
 	const propsToShow = {
 		inst_name_cn: '机构名称',
 		inst_name_en: '机构英文名称',
@@ -134,19 +194,21 @@ function ExpandedProgramCard(program: ProgramMetadata) {
 	};
 
 	return (
-		<table className="w-full table-fixed border-collapse border border-slate-400 bg-white text-sm shadow-sm">
-			<tbody>
-				{Object.entries(propsToShow).map(entry => (
-					<tr key={entry[0]} className="hover:bg-slate-100">
-						<td className="w-1/5 border border-slate-300 p-1 text-slate-500">
-							{entry[1]}
-						</td>
-						<td className="border border-slate-300 p-1 text-slate-500">
-							{(program as any)[entry[0]]}
-						</td>
-					</tr>
-				))}
-			</tbody>
-		</table>
+		<div className="my-2 overflow-auto rounded-2xl border border-white bg-slate-50 text-slate-600">
+			<table className="w-full table-fixed">
+				<tbody>
+					{Object.entries(propsToShow).map(entry => (
+						<tr key={entry[0]}>
+							<td className="w-1/5 border border-white bg-slate-100 p-2 font-semibold">
+								{entry[1]}
+							</td>
+							<td className="border border-white p-2">
+								{(program as any)[entry[0]]}
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
 	);
 }

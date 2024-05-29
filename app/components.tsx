@@ -39,21 +39,14 @@ export function ProgramCard({ program }: { program: ProgramMetadata }) {
 	const expandBtnHandle = () => {
 		setExpanded(!expanded);
 	};
-	return expanded
-		? ExpandedProgramCard({ program, expandBtnHandle })
-		: NonExpandedProgramCard({ program, expandBtnHandle });
-}
-
-function NonExpandedProgramCard({
-	program,
-	expandBtnHandle,
-}: {
-	program: ProgramMetadata;
-	expandBtnHandle: () => void;
-}) {
 	return (
-		<div className="group mx-auto overflow-hidden rounded-xl bg-white shadow-md hover:bg-slate-100">
-			<div className="group/main p-8">
+		<div
+			className={
+				'group h-full w-full rounded-xl bg-white shadow-md hover:bg-slate-100' +
+				(expanded ? ' col-span-2' : '')
+			}
+		>
+			<div className="group/main flex h-full flex-col p-4 md:p-8">
 				<div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">
 					{program.prog_type}
 				</div>
@@ -64,29 +57,23 @@ function NonExpandedProgramCard({
 					{program.prog_name}
 				</a>
 
-				<p className="mt-2 line-clamp-3 text-slate-500">{program.prog_goal}</p>
-				<div className="flex flex-wrap space-x-2 text-sm text-gray-500">
-					<div className="flex items-center space-x-1">
-						<Icon path={mdiMapMarker} size={0.7} />
-						<p>{program.country}</p>
-						<span className="w-0" />
-						<p>{program.inst_name_cn}</p>
-					</div>
-					<div className="flex items-center space-x-1">
-						<Icon path={mdiAccountSupervisor} size={0.7} />
-						<a href={program.faculty}>点击查看</a>
-					</div>
-					<div className="flex items-center space-x-1">
-						<Icon path={mdiWallet} size={0.7} />
-						<p>{program.duration}</p>
-					</div>
+				<p
+					className={'mt-2 text-slate-500' + (expanded ? '' : ' line-clamp-3')}
+				>
+					{program.prog_goal}
+				</p>
 
+				{expanded
+					? ExpandedProgramCard(program)
+					: NonExpandedProgramCard(program)}
+				<span className="grow" />
+				<div className="flex">
 					<span className="grow" />
 					<button
-						className="m-2 inline-block border px-4 py-2 hover:border-black"
+						className="m-2 inline-block border px-4 py-2 hover:border-black sm:-mb-2"
 						onClick={expandBtnHandle}
 					>
-						展开
+						{expanded ? '收缩' : '展开'}
 					</button>
 				</div>
 			</div>
@@ -94,13 +81,28 @@ function NonExpandedProgramCard({
 	);
 }
 
-function ExpandedProgramCard({
-	program,
-	expandBtnHandle,
-}: {
-	program: ProgramMetadata;
-	expandBtnHandle: () => void;
-}) {
+function NonExpandedProgramCard(program: ProgramMetadata) {
+	return (
+		<div className="flex flex-wrap space-x-2 text-sm text-gray-500">
+			<div className="flex items-center space-x-1">
+				<Icon path={mdiMapMarker} size={0.7} />
+				<p>{program.country}</p>
+				<span className="w-0" />
+				<p>{program.inst_name_cn}</p>
+			</div>
+			<div className="flex items-center space-x-1">
+				<Icon path={mdiAccountSupervisor} size={0.7} />
+				<a href={program.faculty}>点击查看</a>
+			</div>
+			<div className="flex items-center space-x-1">
+				<Icon path={mdiWallet} size={0.7} />
+				<p>{program.duration}</p>
+			</div>
+		</div>
+	);
+}
+
+function ExpandedProgramCard(program: ProgramMetadata) {
 	const propsToShow = {
 		inst_name_cn: '机构名称',
 		inst_name_en: '机构英文名称',
@@ -132,44 +134,19 @@ function ExpandedProgramCard({
 	};
 
 	return (
-		<div className="group mx-auto overflow-hidden rounded-xl bg-white shadow-md hover:bg-slate-100">
-			<div className="group/main p-8">
-				<div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">
-					{program.prog_type}
-				</div>
-				<a
-					href={program.course_url}
-					className="mt-1 block text-lg font-medium leading-tight hover:underline"
-				>
-					{program.prog_name}
-				</a>
-
-				<p className="mt-2 text-slate-500">{program.prog_goal}</p>
-
-				<table className="w-full table-auto border-collapse border border-slate-400 bg-white text-sm shadow-sm">
-					<tbody>
-						{Object.entries(propsToShow).map(entry => (
-							<tr key={entry[0]} className="hover:bg-slate-100">
-								<td className="border border-slate-300 p-2 text-slate-500">
-									{entry[1]}
-								</td>
-								<td className="border border-slate-300 p-2 text-slate-500">
-									{(program as any)[entry[0]]}
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-				<div className="flex flex-wrap space-x-2 text-sm text-gray-500">
-					<span className="grow" />
-					<button
-						className="m-2 inline-block border px-4 py-2 hover:border-black"
-						onClick={expandBtnHandle}
-					>
-						收缩
-					</button>
-				</div>
-			</div>
-		</div>
+		<table className="w-full table-fixed border-collapse border border-slate-400 bg-white text-sm shadow-sm">
+			<tbody>
+				{Object.entries(propsToShow).map(entry => (
+					<tr key={entry[0]} className="hover:bg-slate-100">
+						<td className="w-1/5 border border-slate-300 p-1 text-slate-500">
+							{entry[1]}
+						</td>
+						<td className="border border-slate-300 p-1 text-slate-500">
+							{(program as any)[entry[0]]}
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
 	);
 }

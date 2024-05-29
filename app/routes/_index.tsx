@@ -27,7 +27,7 @@ export default function Index() {
 			{/* <button onClick={() => setCount(count + 1)}>点击 {count} 次</button> */}
 			<div>
 				{fetcher.data !== undefined ? (
-					<div className={`flex flex-col space-y-8 lg:flex-row lg:flex-wrap`}>
+					<div className="space-y-4 sm:space-y-6 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
 						{data?.map((item, index) => {
 							return (
 								<ProgramCard program={new ProgramMetadata(item)} key={index} />

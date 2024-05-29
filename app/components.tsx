@@ -2,7 +2,15 @@ import * as React from 'react';
 import markdoc, { type RenderableTreeNodes } from '@markdoc/markdoc';
 import type { ProgramMetadata } from '~/types';
 import Icon from '@mdi/react';
-import { mdiMapMarker, mdiAccountSupervisor, mdiWallet } from '@mdi/js';
+import {
+	mdiMapMarker,
+	mdiAccountSupervisor,
+	mdiWallet,
+	mdiGithub,
+} from '@mdi/js';
+import { useState } from 'react';
+import { Link, useLoaderData } from '@remix-run/react';
+import { loader } from '~/root';
 
 export function RemixLogo(props: React.ComponentPropsWithoutRef<'svg'>) {
 	return (
@@ -32,35 +40,178 @@ export function Markdown({ content }: { content: RenderableTreeNodes }) {
 	return <div className="prose">{markdoc.renderers.react(content, React)}</div>;
 }
 
-export function ProgramCard({ program }: { program: ProgramMetadata }) {
+export function HeaderContent({
+	repo,
+	owner,
+}: {
+	repo: string;
+	owner: string;
+}) {
 	return (
-		<div className="group mx-auto overflow-hidden rounded-xl bg-white shadow-md hover:bg-slate-100">
-			<div className="group/main p-8">
-				<div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">
-					{program.program_type}
+		<div className="flex justify-center bg-slate-800">
+			<div className="container flex items-center justify-between p-4 text-white">
+				<RemixLogo />
+				<span className="float-left font-bold text-white">
+					AI资源信息库-学位信息
+				</span>
+				<nav>
+					<ul className="flex space-x-4">
+						<li>
+							<Link to="/" title="首页" className="hover:text-slate-200">
+								首页
+							</Link>
+						</li>
+						<li>
+							<Link
+								to={`https://github.com/${owner}/${repo}`}
+								title="项目地址"
+								className="hover:text-slate-200"
+							>
+								{/*<Icon path={mdiGithub} size={1} />*/}
+								项目地址
+							</Link>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	);
+}
+
+export function HeadCard({
+	title,
+	description,
+	children,
+}: {
+	title: string;
+	description?: string;
+	children?: React.ReactNode;
+}) {
+	return (
+		<div className="flex flex-col justify-center rounded-2xl bg-slate-200 p-8 sm:p-14 lg:min-h-[544px]">
+			<h1 className="-my-2 text-[44px] font-bold sm:text-[88px]">{title}</h1>
+			{description ? <p className="sm:text-[22px]">{description}</p> : null}
+			{children}
+		</div>
+	);
+}
+
+export function ProgramCard({ program }: { program: ProgramMetadata }) {
+	const [expanded, setExpanded] = useState(false);
+
+	const expandBtnHandle = () => {
+		setExpanded(!expanded);
+	};
+	return (
+		<div
+			className={
+				'group h-full w-full rounded-2xl bg-slate-200 transition hover:bg-slate-300' +
+				(expanded ? ' col-span-full' : '')
+			}
+		>
+			<div className="group/main flex h-full flex-col p-4 md:p-8">
+				<div className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+					{program.prog_type}
 				</div>
 				<a
-					href={program.url}
+					href={program.course_url}
 					className="mt-1 block text-lg font-medium leading-tight hover:underline"
 				>
-					{program.program_name}
+					{program.prog_name}
 				</a>
-				<p className="mt-2 text-slate-500">{program.objective}</p>
-				<div className="flex justify-start space-x-2 align-baseline text-sm text-gray-500">
-					<div className="flex items-center">
-						<Icon path={mdiMapMarker} size={0.7} />
-						<p>{program.location}</p>
-					</div>
-					<div className="flex items-center">
-						<Icon path={mdiAccountSupervisor} size={0.7} />
-						<p>{program.target_audience}</p>
-					</div>
-					<div className="flex items-center">
-						<Icon path={mdiWallet} size={0.7} />
-						<p>{program.cost}</p>
-					</div>
+
+				<p
+					className={'mt-2 text-slate-500' + (expanded ? '' : ' line-clamp-3')}
+				>
+					{program.prog_goal}
+				</p>
+
+				<span className="grow" />
+				{expanded
+					? ExpandedProgramCardContent(program)
+					: NonExpandedProgramCardContent(program)}
+				<div className="flex">
+					<span className="grow" />
+					<button
+						className="m-2 inline-block rounded-full border bg-slate-100 px-4 py-2 transition hover:bg-slate-200 active:bg-slate-300 sm:-mb-2 sm:-me-2"
+						onClick={expandBtnHandle}
+					>
+						{expanded ? '收缩' : '展开'}
+					</button>
 				</div>
 			</div>
+		</div>
+	);
+}
+
+function NonExpandedProgramCardContent(program: ProgramMetadata) {
+	return (
+		<div className="flex flex-wrap space-x-2 text-sm text-gray-500 transition-all duration-300">
+			<div className="flex items-center space-x-1">
+				<Icon path={mdiMapMarker} size={0.7} />
+				<p>{program.country}</p>
+				<span className="w-0" />
+				<p>{program.inst_name_cn}</p>
+			</div>
+			<div className="flex items-center space-x-1">
+				<Icon path={mdiAccountSupervisor} size={0.7} />
+				<a href={program.faculty}>点击查看</a>
+			</div>
+			<div className="flex items-center space-x-1">
+				<Icon path={mdiWallet} size={0.7} />
+				<p>{program.duration}</p>
+			</div>
+		</div>
+	);
+}
+
+function ExpandedProgramCardContent(program: ProgramMetadata) {
+	const propsToShow = {
+		inst_name_cn: '机构名称',
+		inst_name_en: '机构英文名称',
+		intro_cn: '机构简介',
+		inst_type: '机构类型',
+		country: '机构所在国家',
+		rank: '项目学科排名',
+		prog_name: '项目名称',
+		is_indep: '是否独立项目',
+		prog_type: '项目类型',
+		prog_url: '项目介绍的URL',
+		school: '所在学院',
+		host_inst: '依托院系',
+		awards_or_abet: '项目荣誉或是否有工程认证',
+		apply_url: '申请链接',
+		degree: '所授学位',
+		duration: '学制',
+		joint: '是否为贯通项目',
+		min_credit: '学分要求',
+		thesis: '论文要求',
+		prog_goal: '教育目标',
+		prog_outcome: '预期学习成果',
+		has_culm_act: '是否有最终项目',
+		internship: '是否提供实习',
+		has_minor: '是否提供选修或双学位',
+		course_url: '课程链接',
+		faculty: '教职人员',
+		stu_hb_url: '学生手册链接',
+	};
+
+	return (
+		<div className="my-2 overflow-auto rounded-2xl border border-white bg-slate-50 text-slate-600 transition-all duration-300">
+			<table className="w-full table-fixed">
+				<tbody>
+					{Object.entries(propsToShow).map(entry => (
+						<tr key={entry[0]}>
+							<td className="w-1/5 border border-white bg-slate-100 p-2 font-semibold">
+								{entry[1]}
+							</td>
+							<td className="border border-white p-2">
+								{(program as any)[entry[0]]}
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
 		</div>
 	);
 }

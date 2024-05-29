@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "remix vite:dev",
     "test": "playwright test --ui",
-    "migrate":"wrangler d1 migrations apply DB --local",
+    "migrate": "wrangler d1 migrations apply DB --local",
     "start": "wrangler pages dev ./build/client --d1=DB",
     "build": "remix vite:build",
     "cleanup": "rimraf .cache ./build",
@@ -24,7 +24,8 @@
     "isbot": "^3.6.5",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240222.0",
@@ -60,5 +61,6 @@
   "sideEffects": false,
   "lint-staged": {
     "*.{js,mjs,ts,tsx,css,md,yml}": "prettier --write"
-  }
+  },
+  "packageManager": "pnpm@9.1.2+sha1.907f57a52517de34399d66401bf220a549e47b57"
 }

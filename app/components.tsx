@@ -1,16 +1,17 @@
 import * as React from 'react';
 import markdoc, { type RenderableTreeNodes } from '@markdoc/markdoc';
 import type { ProgramMetadata } from '~/types';
-import Icon from '@mdi/react';
 import {
 	mdiMapMarker,
 	mdiAccountSupervisor,
 	mdiWallet,
 	mdiGithub,
+	mdiArrowLeft,
+	mdiArrowRight,
 } from '@mdi/js';
 import { useState } from 'react';
-import { Link, useLoaderData } from '@remix-run/react';
-import { loader } from '~/root';
+import { Link } from '@remix-run/react';
+import ClientOnlyIcon from '~/helper';
 
 export function RemixLogo(props: React.ComponentPropsWithoutRef<'svg'>) {
 	return (
@@ -67,8 +68,7 @@ export function HeaderContent({
 								title="项目地址"
 								className="hover:text-slate-200"
 							>
-								{/*<Icon path={mdiGithub} size={1} />*/}
-								项目地址
+								<ClientOnlyIcon path={mdiGithub} size={1} title="项目地址" />
 							</Link>
 						</li>
 					</ul>
@@ -87,11 +87,42 @@ export function HeadCard({
 	description?: string;
 	children?: React.ReactNode;
 }) {
+	const [expanded, setExpanded] = useState(false);
+
+	const expandBtnHandle = () => {
+		setExpanded(!expanded);
+	};
+
 	return (
-		<div className="flex flex-col justify-center rounded-2xl bg-slate-200 p-8 sm:p-14 lg:min-h-[544px]">
-			<h1 className="-my-2 text-[44px] font-bold sm:text-[88px]">{title}</h1>
-			{description ? <p className="sm:text-[22px]">{description}</p> : null}
-			{children}
+		<div className="flex flex-col gap-4 transition-all lg:flex-row">
+			<div className="flex w-full flex-auto flex-col justify-center rounded-2xl bg-slate-200 p-8 sm:p-14 lg:min-h-[544px] lg:w-auto lg:min-w-80">
+				<h1 className="-my-2 text-[44px] font-bold sm:text-[88px]">{title}</h1>
+				{description ? <p className="sm:text-[22px]">{description}</p> : null}
+			</div>
+			{!children ? (
+				<div
+					className={`${expanded ? 'flex-auto' : 'flex-initial'} flex items-center justify-center rounded-2xl bg-slate-200 `}
+				>
+					<button
+						className="mx-1 hidden h-fit rounded-full border bg-slate-100 py-4 transition hover:bg-slate-200 active:bg-slate-300 sm:-mb-2 sm:-me-2 lg:inline-block"
+						style={{ writingMode: 'vertical-rl' }}
+						onClick={expandBtnHandle}
+					>
+						<p>
+							<ClientOnlyIcon
+								path={expanded ? mdiArrowRight : mdiArrowLeft}
+								size={0.7}
+								title={expanded ? '收缩' : '展开'}
+							/>
+						</p>
+					</button>
+					<div
+						className={`flex flex-col justify-center rounded-2xl bg-slate-200 p-8 sm:p-14 ${expanded ? '' : 'lg:hidden'}`.trim()}
+					>
+						{children}
+					</div>
+				</div>
+			) : null}
 		</div>
 	);
 }
@@ -148,17 +179,17 @@ function NonExpandedProgramCardContent(program: ProgramMetadata) {
 	return (
 		<div className="flex flex-wrap space-x-2 text-sm text-gray-500 transition-all duration-300">
 			<div className="flex items-center space-x-1">
-				<Icon path={mdiMapMarker} size={0.7} />
+				<ClientOnlyIcon path={mdiMapMarker} size={0.7} />
 				<p>{program.country}</p>
 				<span className="w-0" />
 				<p>{program.inst_name_cn}</p>
 			</div>
 			<div className="flex items-center space-x-1">
-				<Icon path={mdiAccountSupervisor} size={0.7} />
+				<ClientOnlyIcon path={mdiAccountSupervisor} size={0.7} />
 				<a href={program.faculty}>点击查看</a>
 			</div>
 			<div className="flex items-center space-x-1">
-				<Icon path={mdiWallet} size={0.7} />
+				<ClientOnlyIcon path={mdiWallet} size={0.7} />
 				<p>{program.duration}</p>
 			</div>
 		</div>

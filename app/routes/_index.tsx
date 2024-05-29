@@ -1,20 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
-import { json, useFetcher, useLoaderData } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react';
 import { useEffect } from 'react';
-import { ProgramCard } from '~/components';
+import { HeadCard, ProgramCard } from '~/components';
 import { ProgramMetadata } from '~/types';
+import * as React from 'react';
 // import { useState } from 'react';
 // import { Markdown } from '~/components';
 
-export async function loader({ context }: LoaderFunctionArgs) {
-	return json({
-		content: '',
-	});
-}
-
 export default function Index() {
-	const { content } = useLoaderData<typeof loader>();
 	const fetcher = useFetcher<{ [key: string]: string }[]>({ key: 'category' });
 	useEffect(() => {
 		fetcher.load('/data');
@@ -23,10 +16,12 @@ export default function Index() {
 
 	return (
 		<div className="m-4 space-y-8">
-			{/* <HeadCard
+			<HeadCard
 				title="AI资源信息库"
 				description="本网站汇总整理AI资源信息，如有侵权请联系项目管理员。"
-			/> */}
+			>
+				TODO: 添加筛选用控件
+			</HeadCard>
 			{/* <p className={`font-bold`}>资源信息{content}</p> */}
 			<div>
 				{fetcher.data !== undefined ? (

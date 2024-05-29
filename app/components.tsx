@@ -51,6 +51,9 @@ export function HeaderContent({
 		<div className="flex justify-center bg-slate-800">
 			<div className="container flex items-center justify-between p-4 text-white">
 				<RemixLogo />
+				<span className="float-left font-bold text-white">
+					AI资源信息库-学位信息
+				</span>
 				<nav>
 					<ul className="flex space-x-4">
 						<li>

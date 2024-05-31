@@ -41,9 +41,6 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
-      react-tailwindcss-select:
-        specifier: ^1.8.5
-        version: 1.8.5(react@18.2.0)
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20240222.0
@@ -3582,11 +3579,6 @@ packages:
     engines: {node: '>=14.0.0'}
     peerDependencies:
       react: '>=16.8'
-
-  react-tailwindcss-select@1.8.5:
-    resolution: {integrity: sha512-x29IrLiqBT5FnkC9oFQReOr05tEOZHtDtZdha84nlSWcj3qD67yonKFHXIf69yc8ElFlKUxCEv0zCllN8jHBFA==}
-    peerDependencies:
-      react: ^18.2.0
 
   react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
@@ -8235,10 +8227,6 @@ snapshots:
   react-router@6.22.3(react@18.2.0):
     dependencies:
       '@remix-run/router': 1.15.3
-      react: 18.2.0
-
-  react-tailwindcss-select@1.8.5(react@18.2.0):
-    dependencies:
       react: 18.2.0
 
   react@18.2.0:

@@ -25,7 +25,8 @@
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-select": "^5.8.0"
+    "react-select": "^5.8.0",
+    "remix-utils": "^7.6.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240222.0",
@@ -62,5 +63,5 @@
   "lint-staged": {
     "*.{js,mjs,ts,tsx,css,md,yml}": "prettier --write"
   },
-  "packageManager": "pnpm@9.1.2+sha1.907f57a52517de34399d66401bf220a549e47b57"
+  "packageManager": "pnpm@8.15.8"
 }

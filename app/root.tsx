@@ -8,7 +8,6 @@ import {
 	ScrollRestoration,
 	isRouteErrorResponse,
 	json,
-	useLoaderData,
 	useRouteError,
 } from '@remix-run/react';
 import '~/styles.css';

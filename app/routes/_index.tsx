@@ -7,6 +7,7 @@ import MultiSelect from '~/components/MultiSelect';
 import { ProgramMetadata } from '~/types';
 import getCSVData from '~/utils/data';
 import Papa from 'papaparse';
+import { ClientOnly } from 'remix-utils/client-only';
 
 export const loader = async () => {
 	return getCSVData();
@@ -34,11 +35,6 @@ export default function Index() {
 				filterState.duration.includes(item['duration'])),
 	);
 
-	const readyToSave = new Blob([Papa.unparse(selectedData)]);
-	const readyToSaveBOM = new Blob(['\ufeff', Papa.unparse(selectedData)], {});
-	const fileUrl = URL.createObjectURL(readyToSave);
-	const fileBOMUrl = URL.createObjectURL(readyToSaveBOM);
-
 	return (
 		<div className="m-4 space-y-8">
 			{/* <HeadCard
@@ -53,25 +49,37 @@ export default function Index() {
 					filterState={filterState}
 					updateCallback={setFilterState}
 				></ItemFilter>
-				<div className="flex items-center gap-1">
-					<span>符合条件的信息有：{selectedData.length}条</span>
-					<a
-						className="rounded bg-green-400 p-1 text-white"
-						href={fileBOMUrl}
-						download={'filtered_bom.csv'}
-					>
-						下载(UTF-8 BOM，可用于Excel)
-					</a>
-					<a
-						className="rounded bg-sky-400 p-1 text-white"
-						href={fileUrl}
-						download={'filtered.csv'}
-					>
-						下载(UTF-8，可用于其他程序)
-					</a>
-				</div>
+				<ClientOnly>
+					{() => <DownloadCSV data={selectedData}></DownloadCSV>}
+				</ClientOnly>
 				<ItemList data={selectedData}></ItemList>
 			</div>
+		</div>
+	);
+}
+
+function DownloadCSV(props: { data: { [key: string]: string }[] }) {
+	const readyToSave = new Blob([Papa.unparse(props.data)]);
+	const readyToSaveBOM = new Blob(['\ufeff', Papa.unparse(props.data)], {});
+	const fileUrl = URL.createObjectURL(readyToSave);
+	const fileBOMUrl = URL.createObjectURL(readyToSaveBOM);
+	return (
+		<div className="flex items-center gap-1">
+			<span>符合条件的信息有：{props.data.length}条</span>
+			<a
+				className="rounded bg-green-400 p-1 text-white"
+				href={fileBOMUrl}
+				download={'filtered_bom.csv'}
+			>
+				下载(UTF-8 BOM，可用于Excel)
+			</a>
+			<a
+				className="rounded bg-sky-400 p-1 text-white"
+				href={fileUrl}
+				download={'filtered.csv'}
+			>
+				下载(UTF-8，可用于其他程序)
+			</a>
 		</div>
 	);
 }

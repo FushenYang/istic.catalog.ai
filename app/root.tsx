@@ -1,5 +1,4 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/cloudflare';
-import * as React from 'react';
 import {
 	Links,
 	Meta,
@@ -8,11 +7,11 @@ import {
 	ScrollRestoration,
 	isRouteErrorResponse,
 	json,
-	useLoaderData,
 	useRouteError,
 } from '@remix-run/react';
-import '~/styles.css';
+import * as React from 'react';
 import { HeadCard, HeaderContent } from '~/components';
+import '~/styles.css';
 // import { RemixLogo } from './components';
 
 // We will rollback to loading CSS through links when `.css?url` is supported
@@ -53,10 +52,10 @@ function Document({ children }: { children: React.ReactNode }) {
 				<Meta />
 				<Links />
 			</head>
-			<Scripts />
 			<body className="bg-slate-50 font-sans antialiased">
 				{children}
 				<ScrollRestoration />
+				<Scripts />
 			</body>
 		</html>
 	);

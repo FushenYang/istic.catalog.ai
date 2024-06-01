@@ -1,16 +1,13 @@
-import * as React from 'react';
-import markdoc, { type RenderableTreeNodes } from '@markdoc/markdoc';
-import type { ProgramMetadata } from '~/types';
-import Icon from '@mdi/react';
 import {
-	mdiMapMarker,
-	mdiAccountSupervisor,
-	mdiWallet,
-	mdiGithub,
-} from '@mdi/js';
+	AcademicCapIcon,
+	MapPinIcon,
+	UserIcon,
+} from '@heroicons/react/24/outline';
+import markdoc, { type RenderableTreeNodes } from '@markdoc/markdoc';
+import { Link } from '@remix-run/react';
+import * as React from 'react';
 import { useState } from 'react';
-import { Link, useLoaderData } from '@remix-run/react';
-import { loader } from '~/root';
+import type { ProgramMetadata } from '~/types';
 
 export function RemixLogo(props: React.ComponentPropsWithoutRef<'svg'>) {
 	return (
@@ -67,7 +64,6 @@ export function HeaderContent({
 								title="项目地址"
 								className="hover:text-slate-200"
 							>
-								{/*<Icon path={mdiGithub} size={1} />*/}
 								项目地址
 							</Link>
 						</li>
@@ -148,17 +144,17 @@ function NonExpandedProgramCardContent(program: ProgramMetadata) {
 	return (
 		<div className="flex flex-wrap space-x-2 text-sm text-gray-500 transition-all duration-300">
 			<div className="flex items-center space-x-1">
-				<Icon path={mdiMapMarker} size={0.7} />
+				<MapPinIcon className="h-4 w-4"></MapPinIcon>
 				<p>{program.country}</p>
 				<span className="w-0" />
 				<p>{program.inst_name_cn}</p>
 			</div>
 			<div className="flex items-center space-x-1">
-				<Icon path={mdiAccountSupervisor} size={0.7} />
+				<UserIcon className="h-4 w-4"></UserIcon>
 				<a href={program.faculty}>点击查看</a>
 			</div>
 			<div className="flex items-center space-x-1">
-				<Icon path={mdiWallet} size={0.7} />
+				<AcademicCapIcon className="h-4 w-4"></AcademicCapIcon>
 				<p>{program.duration}</p>
 			</div>
 		</div>

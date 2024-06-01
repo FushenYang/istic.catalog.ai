@@ -1,10 +1,4 @@
-import { type LoaderFunctionArgs, json } from '@remix-run/cloudflare';
 import Papa from 'papaparse';
-
-export const loader = async ({ context }: LoaderFunctionArgs) => {
-	const records = csv_json(csvdata);
-	return json(records);
-};
 
 const csv_json = (csv: string): Array<Object> => {
 	const lines = Papa.parse<string[]>(csv.trim());
@@ -219,3 +213,7 @@ Academic Research (Optional): Graduates will be able to work independently on a 
 40,马里兰大学学院园分校,"University of Maryland, College Park","马里兰大学，全称马里兰大学帕克分校（University of Maryland, College Park），简称 UMD或UMCP，始建于1856年，坐落于美国马里兰州，是世界知名学府，美国著名公立研究型大学。其位列2020U.S. News世界大学排名第51，2020QS美国大学排名第48，2020莫斯科国际大学排名第37，2020软科世界大学学术排名第53，2021U.S. News美国最佳大学排名第58，2019福布斯美国大学排行榜第63。大学一共孕育出6名诺贝尔奖得主 、15名普利策奖得主、60位国家科学院院士和数十位富布莱特学者。马里兰大学是美国大学协会和Universitas 21成员，是美国知名体育联盟十大联盟成员。马里兰大学下设13个学院，其科研及教研水平在全美乃至全世界均处于领先地位，学校有31项专业名列全美前10名，61项专业名列全美前15名，90项专业名列全美前25名。其尤以理工、商科而著名：在2018世界大学学术排名学科世界排名中，管理学世界排名第7，商学世界排名第10，电子工程学世界排名第18，经济学专业世界排名第18。该校校友参与创建了谷歌、安德玛等世界知名企业；并或于美国有线电视新闻网、洛克希德·马丁公司等企业出任CEO或总裁。",公立,美国,33,Computer Science-AI/Robotics,"否,作为研究方向",学术型硕士,https://academiccatalog.umd.edu/graduate/programs/computer-science-cmsc/#text,"College of Computer, Mathematical, and Natural Sciences",DEPARTMENT OF COMPUTER SCIENCE,ranked among the top in the nation and in the top ten among public universities.,https://www.cs.umd.edu/grad/catalog#applying,Master of Science in Computer Science,2years,否,30 units,https://gradschool.umd.edu/students/academic-progress/thesis-and-dissertation-filing,our research mission creates new knowledge and prepares the next generation of knowledge producers,/,否,是,否,https://cmns.umd.edu/graduate/science-academy/data-science/masters,https://www.cs.umd.edu/researcharea/ai-and-robotics,
 41,马里兰大学学院园分校,"University of Maryland, College Park","马里兰大学，全称马里兰大学帕克分校（University of Maryland, College Park），简称 UMD或UMCP，始建于1856年，坐落于美国马里兰州，是世界知名学府，美国著名公立研究型大学。其位列2020U.S. News世界大学排名第51，2020QS美国大学排名第48，2020莫斯科国际大学排名第37，2020软科世界大学学术排名第53，2021U.S. News美国最佳大学排名第58，2019福布斯美国大学排行榜第63。大学一共孕育出6名诺贝尔奖得主 、15名普利策奖得主、60位国家科学院院士和数十位富布莱特学者。马里兰大学是美国大学协会和Universitas 21成员，是美国知名体育联盟十大联盟成员。马里兰大学下设13个学院，其科研及教研水平在全美乃至全世界均处于领先地位，学校有31项专业名列全美前10名，61项专业名列全美前15名，90项专业名列全美前25名。其尤以理工、商科而著名：在2018世界大学学术排名学科世界排名中，管理学世界排名第7，商学世界排名第10，电子工程学世界排名第18，经济学专业世界排名第19。该校校友参与创建了谷歌、安德玛等世界知名企业；并或于美国有线电视新闻网、洛克希德·马丁公司等企业出任CEO或总裁。",公立,美国,33,Computer Science-AI/Robotics,"否,作为研究方向",博士,https://academiccatalog.umd.edu/graduate/programs/computer-science-cmsc/computer-science-phd/,"College of Computer, Mathematical, and Natural Sciences",DEPARTMENT OF COMPUTER SCIENCE,ranked among the top in the nation and in the top ten among public universities.,https://www.cs.umd.edu/grad/catalog#applying,Doctor of Philosophy  in Computer Science,5-6 years,否,37units,https://gradschool.umd.edu/students/academic-progress/thesis-and-dissertation-filing,/,/,否,是,否,https://cmns.umd.edu/graduate/science-academy/data-science/masters,https://www.cs.umd.edu/researcharea/ai-and-robotics,
 `;
+
+export default function getCSVData() {
+	return csv_json(csvdata);
+}

@@ -23,7 +23,7 @@ export const meta: MetaFunction = () => {
 	return [
 		{ charset: 'utf-8' },
 		{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-		{ title: 'AI资源信息库' },
+		{ title: 'AI教育资源信息库' },
 	];
 };
 

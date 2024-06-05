@@ -32,11 +32,7 @@ pnpm run migrate
 以上命令会使用`./migrations`文件夹下的数据脚本生成本地数据库文件，该文件位
 于`./.wrangler/state/v3/d1/`文件夹下，可以直接访问修改本地数据库。
 
-测试网站功能需要先生成网站，然后使用wrangler工具模拟cloudflare的环境，命令如下：
-
-```bash
-pnpm run build && pnpm run start
-```
+生成数据库之后，就可以使用本地测试数据库相关的功能了。
 
 ## 使用wrangler工具管理数据库注意事项
 

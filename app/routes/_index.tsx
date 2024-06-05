@@ -1,16 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLoaderData } from '@remix-run/react';
+import { json, useLoaderData } from '@remix-run/react';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
 import { ProgramCard } from '~/components';
 import MultiSelect from '~/components/MultiSelect';
 import { ProgramMetadata } from '~/types';
-import getCSVData from '~/utils/data';
+//import getCSVData from '~/utils/data';
 import Papa from 'papaparse';
 import { ClientOnly } from 'remix-utils/client-only';
+import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
 
-export const loader = async () => {
-	return getCSVData();
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+	const db = context.env.DB;
+	const { results } = await db.prepare('SELECT * FROM degree_prog').all();
+	return json(results);
 };
 
 export default function Index() {

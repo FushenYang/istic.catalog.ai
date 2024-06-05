@@ -3,7 +3,7 @@ import { json, useLoaderData } from '@remix-run/react';
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
 	const db = context.env.DB;
-	const { results } = await db.prepare('SELECT * FROM employees').all();
+	const { results } = await db.prepare('SELECT * FROM degree_prog').all();
 	return json({ content: results });
 };
 

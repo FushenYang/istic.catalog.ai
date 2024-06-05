@@ -36,4 +36,7 @@ pnpm run migrate
 
 ## 使用wrangler工具管理数据库注意事项
 
-- D1数据库暂不支持事务，对于倒入的批量脚本，需要去掉BEGIN、COMMIT等关键词。
+- D1数据库暂不支持事务，对于倒入的批量脚本，需要去掉BEGIN、COMMIT等关键词
+- 少量数据更改可以借助D1-manager完成
+- 大量数据的更新可以借用以下命令：`npx wrangler d1 migrations apply DB --remote`
+  or `npx wrangler d1 execute DB --remote --file=./script.sql`
